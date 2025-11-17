@@ -1,4 +1,4 @@
-import { TANK_SIZE, BULLET_SIZE, PLAYER_SPEED, ENEMY_SPEED, BULLET_SPEED, DIRECTION, CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
+import { TANK_SIZE, BULLET_SIZE, WALL_SIZE, BASE_SIZE, PLAYER_SPEED, ENEMY_SPEED, BULLET_SPEED, DIRECTION, CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
 
 export class Tank {
   constructor(x, y, type = 'player') {

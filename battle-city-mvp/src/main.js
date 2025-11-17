@@ -28,28 +28,9 @@ let fpsTime = 0;
 
 // Initialize level
 function initLevel() {
-  // Create walls around perimeter
+  // Create walls around perimeter (inside the canvas, not on edges)
   const wallSize = 8;
-  
-  // Top wall
-  for (let x = 0; x < CANVAS_WIDTH; x += wallSize) {
-    walls.push(new Wall(x, 0, 'steel'));
-  }
-  
-  // Bottom wall
-  for (let x = 0; x < CANVAS_WIDTH; x += wallSize) {
-    walls.push(new Wall(x, CANVAS_HEIGHT - wallSize, 'steel'));
-  }
-  
-  // Left wall
-  for (let y = wallSize; y < CANVAS_HEIGHT - wallSize; y += wallSize) {
-    walls.push(new Wall(0, y, 'steel'));
-  }
-  
-  // Right wall
-  for (let y = wallSize; y < CANVAS_HEIGHT - wallSize; y += wallSize) {
-    walls.push(new Wall(CANVAS_WIDTH - wallSize, y, 'steel'));
-  }
+  const margin = 16; // Space from edge
   
   // Add some brick walls in middle
   for (let x = 100; x < 200; x += wallSize) {
@@ -60,9 +41,18 @@ function initLevel() {
     walls.push(new Wall(x, 300, 'brick'));
   }
   
+  // Some steel walls for variety
+  for (let y = 100; y < 150; y += wallSize) {
+    walls.push(new Wall(150, y, 'steel'));
+  }
+  
+  for (let y = 250; y < 300; y += wallSize) {
+    walls.push(new Wall(350, y, 'steel'));
+  }
+  
   // Walls around base
   const baseX = CANVAS_WIDTH / 2 - TANK_SIZE / 2;
-  const baseY = CANVAS_HEIGHT - TANK_SIZE - 16;
+  const baseY = CANVAS_HEIGHT - TANK_SIZE - 32;
   
   // Create base
   base = new Base(baseX, baseY);
@@ -131,6 +121,11 @@ function gameLoop(currentTime) {
   renderer.drawText(`FPS: ${fps}`, 10, 20, '#FFFFFF', 14);
   renderer.drawText(`Lives: ${playerLives}`, 10, 40, '#FFFFFF', 16);
   renderer.drawText(`Enemies: ${enemies.length}`, CANVAS_WIDTH - 120, 40, '#FFFFFF', 16);
+  
+  // Instructions
+  if (gameState === 'PLAYING') {
+    renderer.drawText(`Arrow Keys: Move | Space: Shoot`, 10, CANVAS_HEIGHT - 10, '#AAAAAA', 12);
+  }
 
   // Game over/win messages
   if (gameState === 'GAME_OVER') {
@@ -395,4 +390,5 @@ window.addEventListener('keydown', (e) => {
 
 // Start game
 console.log('Battle City MVP - Starting game loop...');
+canvas.focus(); // Focus canvas for keyboard input
 requestAnimationFrame(gameLoop);
